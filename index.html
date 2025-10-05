@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Podemos tener una cita?</title>
+    <meta name="author" content="zero">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9e3e3;
+            font-family: 'Arial', sans-serif;
+            flex-direction: column;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            min-height: 400px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #d32f2f;
+        }
+        
+        .header_text {
+            font-size: 3em;
+            color: #d32f2f;
+        }
+        
+        .buttons {
+            margin-top: 20px;
+        }
+        
+        .yes-button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .yes-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        
+        .no-button {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .no-button:hover {
+            background-color: #da190b;
+        }
+        
+        .gif_container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .yes-page .gif_container img {
+            width: 100%; 
+            max-width: 500px; 
+            height: auto;
+        }
+        
+        .back-button {
+            font-size: 1.2em;
+            padding: 8px 16px;
+            margin-top: 20px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .back-button:hover {
+            background-color: #1976D2;
+        }
+        
+        /* Animación para la transición entre páginas */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Página inicial -->
+        <div id="main-page" class="page active">
+            <h1>¿Dani y si volvemos😜?</h1>
+            <div class="buttons">
+                <button class="yes-button" onclick="handleYesClick()">Sí volvamos😍</button>
+                <button class="no-button" onclick="handleNoClick()">No ni loca</button>
+            </div>
+            <div class="gif_container">
+                <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW5lenZyZHI5OXM2eW95b3pmMG40cWVrMDhtNjVuM3A4dGNxa2g2dSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/VM1fcpu2bKs1e2Kdbj/giphy.gif" alt="Cute GIF">
+            </div>
+        </div>
+        
+        <!-- Página de confirmación -->
+        <div id="yes-page" class="page yes-page">
+            <h1 class="header_text">¡Sabía que dirías que sí!</h1>
+            <div class="gif_container">
+                <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmo3c3l5ODh3ZGN6NHhhaDE2Mjg1ZjkwOXczdDFxbWM3dTBtaW9zaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/9XY4f3FgFTT4QlaYqa/giphy.gif" alt="Happy GIF">
+            </div>
+            <button class="back-button" onclick="goBack()">Intentar de nuevo</button>
+        </div>
+    </div>
+
+    <script>
+        function handleYesClick() {
+            // Ocultar la página principal
+            document.getElementById('main-page').classList.remove('active');
+            
+            // Mostrar la página de confirmación con animación
+            const yesPage = document.getElementById('yes-page');
+            yesPage.classList.add('active', 'fade-in');
+            
+            // Cambiar el título de la página
+            document.title = "¡Sabía que dirías que sí dani!";
+            
+            // Remover la clase de animación después de que termine
+            setTimeout(() => {
+                yesPage.classList.remove('fade-in');
+            }, 500);
+        }
+
+        function handleNoClick() {
+            // Obtener el botón "No"
+            const noButton = document.querySelector('.no-button');
+            const container = document.querySelector('.container');
+            
+            // Obtener las dimensiones del contenedor
+            const containerRect = container.getBoundingClientRect();
+            const buttonRect = noButton.getBoundingClientRect();
+            
+            // Calcular el espacio disponible para mover el botón
+            const maxX = containerRect.width - buttonRect.width;
+            const maxY = containerRect.height - buttonRect.height;
+            
+            // Generar posiciones aleatorias
+            const randomX = Math.random() * Math.max(0, maxX);
+            const randomY = Math.random() * Math.max(0, maxY);
+            
+            // Aplicar la nueva posición
+            noButton.style.position = 'absolute';
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
+            
+            // Agregar un efecto de "escape"
+            noButton.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                noButton.style.transform = 'scale(1)';
+            }, 150);
+            
+            // Cambiar el texto del botón ocasionalmente para mayor diversión
+            const noTexts = ['No', 'Nope', 'Jamás', 'De ninguna manera', 'Nah', 'Inténtalo de nuevo'];
+            const randomText = noTexts[Math.floor(Math.random() * noTexts.length)];
+            noButton.textContent = randomText;
+        }
+
+        function goBack() {
+            // Ocultar la página de confirmación
+            document.getElementById('yes-page').classList.remove('active');
+            
+            // Mostrar la página principal con animación
+            const mainPage = document.getElementById('main-page');
+            mainPage.classList.add('active', 'fade-in');
+            
+            // Restaurar el título original
+            document.title = "¿Dani y si volvemos😜?";
+            
+            // Resetear el botón "No" a su posición original
+            const noButton = document.querySelector('.no-button');
+            noButton.style.position = 'static';
+            noButton.style.transform = 'scale(1)';
+            noButton.textContent = 'No';
+            
+            // Remover la clase de animación después de que termine
+            setTimeout(() => {
+                mainPage.classList.remove('fade-in');
+            }, 500);
+        }
+
+        // Agregar algunos efectos adicionales cuando la página se carga
+        document.addEventListener('DOMContentLoaded', function() {
+            // Agregar un efecto de entrada suave
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease-in';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
